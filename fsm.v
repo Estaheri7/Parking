@@ -1,5 +1,5 @@
-module fsm(enter, exit, CLK, capacity, full, open_door);
-    input enter, exit, CLK;
+module fsm(enter, exit, CLK, capacity, full, open_door, RST);
+    input enter, exit, CLK, RST;
     output full, open_door;
     output reg [2:0] capacity;
 
@@ -10,10 +10,14 @@ module fsm(enter, exit, CLK, capacity, full, open_door);
         capacity = s4;
     end
 
-    assign full = (state == s0);
+    assign full = (state == s0) & enter;
     assign open_door = ((state != s0) & enter) | ((state != s4) & exit);
 
-    always @ (posedge CLK) begin
+    always @ (posedge CLK or negedge RST) begin
+        if (~RST) begin
+            state = s4;
+            capacity = s4;
+        end
         case(state)
             s4: if ((enter == 1 & exit == 0) | (enter == 1 & exit == 1)) begin
                 state = s3;
