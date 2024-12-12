@@ -14,17 +14,21 @@ module two_bit_to_one_mux(sel, switch, L, result);
     assign result = (sel == 1'b0) ? L : switch;
 endmodule
 
-module one_to_four_demux(sel, En, inp, deout);
-    input [1:0] sel;
-    input En;
-    input inp;
-    output [3:0] deout;
+// module one_to_four_demux(sel, En, make_entry, d0, d1, d2, d3);
+//     input [1:0] sel;
+//     input En;
+//     input make_entry;
+//     output reg d0, d1, d2, d3;
 
-    assign deout = (En && inp) ? (
-                    (sel == 2'b00) ? 4'b0001 :
-                    (sel == 2'b01) ? 4'b0010 :
-                    (sel == 2'b10) ? 4'b0100 :
-                    (sel == 2'b11) ? 4'b1000 :
-                    4'b0000) :
-                    4'b0000;
-endmodule
+//     if (En) begin
+//         if (sel == 2'b00) begin
+//             d0 = make_entry;
+//         end else if (sel == 2'b01) begin
+//             d1 = make_entry;
+//         end else if (sel == 2'b10) begin
+//             d2 = make_entry;
+//         end else if (sel == 2'b11) begin
+//             d3 = make_entry;
+//         end
+//     end
+// endmodule
