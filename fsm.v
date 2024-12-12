@@ -1,4 +1,4 @@
-module fsm(enter, exit, CLK, capacity, full, open_door, RST);
+module fsm(enter, exit, CLK, RST, capacity, full, open_door);
     input enter, exit, CLK, RST;
     output full, open_door;
     output reg [2:0] capacity;
