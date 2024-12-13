@@ -21,14 +21,8 @@ L);
     wire [1:0] spot;
     two_bit_to_one_mux eore(open_exit, switch, L, spot);
 
-    // wire En;
-    // wire d0, d1, d2, d3;
-    // assign En = E3 | E2 | E1 | E0;
-    // one_to_four_demux otfd(spot, En, make_entry, d0, d1, d2, d3);
-
-    // // park_space_register psr(d0, d1, d2, d3, CLK, parks_E, parks_F);
     wire En = E[0] | E[1] | E[2] | E[3] | exit;
     min_finder mf(E, L);
 
-    spots_register sr(En, make_entry, CLK, spot, F, E);
+    spots_register sr(En, make_entry, CLK, RST, spot, F, E);
 endmodule

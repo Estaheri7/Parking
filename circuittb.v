@@ -66,7 +66,7 @@ module tb_circuit();
         #10 enter = 1;
         #10 enter = 0;
 
-        switch = 2'b11;
+        switch = 2'b01;
         #10 exit = 1;
         #10 exit = 0;
         switch = 2'b10;
@@ -75,6 +75,9 @@ module tb_circuit();
 
         #10 enter = 1;
         #10 enter = 0;
+
+        #10 RST = 0;
+        #10 RST = 1;
 
         // Conclude test
         $display("End of Step-by-Step Test");
