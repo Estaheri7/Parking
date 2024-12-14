@@ -1,13 +1,14 @@
 module circuit(enter, exit, switch, CLK, RST, full, door_open, 
 capacity, 
 F, E, 
-L);
+L, spot0_time, spot1_time, spot2_time, spot3_time);
     input enter, exit, CLK, RST;
     input [1:0] switch;
     output full, door_open;
     output [2:0] capacity;
     output [1:0] L;
     output [3:0] F, E;
+    output [63:0] spot0_time, spot1_time, spot2_time, spot3_time;
 
     wire open_enter, open_exit, make_entry;
 
@@ -25,4 +26,9 @@ L);
     min_finder mf(E, L);
 
     spots_register sr(En, make_entry, CLK, RST, spot, F, E);
+
+    // wire CLK1;
+    // timer_clock_divder tcd(CLK, CLK1);
+
+    time_counter tc(F, CLK, spot0_time, spot1_time, spot2_time, spot3_time);
 endmodule
