@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module tb_circuit();
 
     // Testbench signals
@@ -8,6 +10,7 @@ module tb_circuit();
     wire [1:0] L;
     wire [3:0] F, E;
     wire [63:0] spot0_time, spot1_time, spot2_time, spot3_time;
+    wire open_light, full_light;
 
     // Instantiate the circuit
     circuit uut (
@@ -25,12 +28,16 @@ module tb_circuit();
         .spot0_time(spot0_time),
         .spot1_time(spot1_time),
         .spot2_time(spot2_time),
-        .spot3_time(spot3_time)
+        .spot3_time(spot3_time),
+        .open_light(open_light),
+        .full_light(full_light)
     );
 
     // Clock generation
+    reg [31:0] counter = 0;
     always begin
-        #5 CLK = ~CLK; // 5 ns clock period
+        #5 CLK = ~CLK;
+        // counter = counter + 1; // 5 ns clock period
     end
 
     // Test sequence
@@ -47,8 +54,9 @@ module tb_circuit();
         switch = 2'b00;
 
         // Monitor outputs
-        $monitor("Time=%0t | enter=%b | exit=%b | full=%b | door_open=%b | switch=%b | capacity=%d | L=%b | F=%b | E=%b | t0=%d | t1=%d | t2=%d | t3=%d", 
-                 $time, enter, exit, full, door_open, switch, capacity, L, F, E, spot0_time, spot1_time, spot2_time, spot3_time);
+        $monitor("Time=%0t | enter=%b | exit=%b | full=%b | full_light=%b | door_open=%b | open_light=%b | switch=%b | capacity=%d | L=%b | F=%b | E=%b", 
+                $time, enter, exit, full, full_light, door_open, open_light, switch, capacity, L, F, E);
+
 
         // Test sequence focusing on 'enter'
         $display("Step-by-Step Testing with 'enter' Signal");
@@ -61,8 +69,11 @@ module tb_circuit();
         #10 enter = 1; // First entry
         #10 enter = 0; // Pause entry
 
-        #1000000 enter = 1;
-        #10 enter = 0;
+        #20000000 enter = 1; // Second entry after 12 seconds
+        #10 enter = 0; // Pause entry
+
+        // #1000000 enter = 1;
+        // #10 enter = 0;
         // #10 enter = 1; // Second entry
         // #10 enter = 0; // Pause entry
         // #10 enter = 1; // Third entry
