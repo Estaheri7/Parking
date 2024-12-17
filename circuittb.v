@@ -72,6 +72,20 @@ module tb_circuit();
         #20000000 enter = 1; // Second entry after 12 seconds
         #10 enter = 0; // Pause entry
 
+          #20000000 enter = 1; // Second entry after 12 seconds
+        #10 enter = 0; // Pause entry
+
+          #20000000 enter = 1; // Second entry after 12 seconds
+        #10 enter = 0; // Pause entry
+
+          #20000000 enter = 1; // Second entry after 12 seconds
+        #10 enter = 0; // Pause entry
+
+        #15000000
+        switch = 2'b10;
+        exit = 1;
+        #10 exit = 0;
+
         // #1000000 enter = 1;
         // #10 enter = 0;
         // #10 enter = 1; // Second entry

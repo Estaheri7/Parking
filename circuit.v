@@ -30,5 +30,6 @@ module circuit(enter, exit, switch, CLK, RST, full, door_open,
     spots_register sr(En, make_entry, CLK, RST, spot, F, E);
 
     time_counter tc(F, CLK, spot0_time, spot1_time, spot2_time, spot3_time);
+    full_blink fb(full, CLK, full_light);
     open_door_blink odb(door_open, CLK, open_light);
 endmodule
