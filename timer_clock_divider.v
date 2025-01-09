@@ -1,7 +1,7 @@
 module timer_clock_divider(CLK_IN, CLK_OUT);
     input CLK_IN;
     output reg CLK_OUT;
-    reg [23:0] counter;
+    reg [27:0] counter;
 
     initial begin
         counter = 0;
@@ -10,7 +10,7 @@ module timer_clock_divider(CLK_IN, CLK_OUT);
 
     always @(posedge CLK_IN) begin
         // 10^3 more
-        if (counter == 100000 - 1) begin
+        if (counter == 10_000_000 - 1) begin
             counter = 0;
             CLK_OUT = ~CLK_OUT;
         end

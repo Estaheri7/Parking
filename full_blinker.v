@@ -23,7 +23,7 @@ module full_blink(full, CLK, light);
             counter <= 0;
             light <= 1'b1;
         end
-        else if (counter != 3 - 1 & blinking) begin
+        else if (counter != 6 - 1 & blinking) begin
             light <= ~light;
             counter <= counter + 1;
         end

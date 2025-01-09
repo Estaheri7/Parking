@@ -1,5 +1,7 @@
-module fsm(enter, exit, CLK, RST, capacity, full, open_door);
+module fsm(enter, exit, CLK, RST, switch, E, capacity, full, open_door);
     input enter, exit, CLK, RST;
+	 input [1:0] switch;
+	 input [3:0] E;
     output full, open_door;
     output reg [2:0] capacity;
 
@@ -11,14 +13,14 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
     end
 
     assign full = (state == s0) & enter;
-    assign open_door = ((state != s0) & enter) | ((state != s4) & exit);
+    assign open_door = ((state != s0) & enter) | ((state != s4) & exit & ~E[switch]);
 
     always @ (posedge CLK or negedge RST) begin
         if (~RST) begin
             state = s4;
             capacity = s4;
         end
-        case(state)
+        else begin case(state)
             s4: if ((enter == 1 & exit == 0) | (enter == 1 & exit == 1)) begin
                 state = s3;
                 capacity = s3;
@@ -30,7 +32,7 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
             s3: if (enter == 1 & exit == 0) begin
                 state = s2;
                 capacity = s2;
-            end else if (enter == 0 & exit == 1) begin
+            end else if (enter == 0 & exit == 1 & ~E[switch]) begin
                 state = s4;
                 capacity = s4;
             end else begin
@@ -41,7 +43,7 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
             s2: if (enter == 1 & exit == 0) begin
                 state = s1;
                 capacity = s1;
-            end else if (enter == 0 & exit == 1) begin
+            end else if (enter == 0 & exit == 1 & ~E[switch]) begin
                 state = s3;
                 capacity = s3;
             end else begin
@@ -52,7 +54,7 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
             s1: if (enter == 1 & exit == 0) begin
                 state = s0;
                 capacity = s0;
-            end else if (enter == 0 & exit == 1) begin
+            end else if (enter == 0 & exit == 1 & ~E[switch]) begin
                 state = s2;
                 capacity = s2;
             end else begin
@@ -60,7 +62,7 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
                 capacity = s1;
             end
 
-            s0: if (enter == 0 & exit == 1) begin
+            s0: if (enter == 0 & exit == 1 & ~E[switch]) begin
                 state = s1;
                 capacity = s1;
             end else begin
@@ -68,5 +70,6 @@ module fsm(enter, exit, CLK, RST, capacity, full, open_door);
                 capacity = s0;
             end
         endcase
+		  end
     end
 endmodule

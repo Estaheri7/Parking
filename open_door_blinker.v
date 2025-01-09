@@ -1,7 +1,7 @@
 module open_door_blink(door_open, CLK, light);
     input door_open, CLK;
     output reg light;
-    reg [3:0] counter;
+    reg [4:0] counter;
     reg blinking;
 
     initial begin
@@ -23,7 +23,7 @@ module open_door_blink(door_open, CLK, light);
             counter <= 0;
             light <= 1'b1;
         end
-        else if (counter != 10 - 1 & blinking) begin
+        else if (counter != 20 - 1 & blinking) begin
             light <= ~light;
             counter <= counter + 1;
         end
