@@ -21,17 +21,17 @@
 module digitsMUX(
     input CLK,
     input [1:0] location,
-	 input [2:0] capacity,
-	 input [3:0] E,
+	input [2:0] capacity,
+	input [3:0] E,
     output reg [4:0] selector,
     output reg [7:0] segments_L
     );
 	 
-	 wire CLK_divided_1, CLK_divided_2;
+	wire CLK_divided_1, CLK_divided_2;
     wire CLK_divided;
 
     digitMUX_clk_divider dmcd(CLK, CLK_divided_1);
-    timer_clock_divider tfcd(CLK, CLK_divided_2);
+    full_clock_divider tfcd(CLK, CLK_divided_2);
 
     assign CLK_divided = (~E != 4'b1111) ? CLK_divided_1 : CLK_divided_2;
 	
@@ -39,7 +39,7 @@ module digitsMUX(
 		selector <= 5'b01000;
 	 end
 	 
-	 always @ (posedge CLK_divided) begin
+	always @ (posedge CLK_divided) begin
 		case (selector)
 			5'b01000: selector <= 5'b00100;
 			5'b00100: selector <= 5'b00010;
@@ -47,8 +47,8 @@ module digitsMUX(
 			5'b00001: selector <= 5'b01000;
 		endcase
 	 end
-	 
-	 always @ (posedge CLK_divided) begin
+	
+	always @ (posedge CLK_divided) begin
 		if (selector == 5'b00100) begin
 			if (~E == 4'b1111) begin
 				segments_L <= 8'b00111000;
