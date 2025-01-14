@@ -24,15 +24,15 @@ module debouncer(
     input RST,
     output reg deb_signal
     );
+	
+	parameter CLK_F = 40_000_000;
 	 
-	 parameter CLK_F = 40_000_000;
+	localparam count_to = CLK_F / 2;
+	reg [1:0] state;
+	reg [25:0] counter;
+	reg btn_s, btn_s_prev;
 	 
-	 localparam count_to = CLK_F / 2;
-	 reg [1:0] state;
-	 reg [25:0] counter;
-	 reg btn_s, btn_s_prev;
-	 
-	 always @ (posedge CLK or negedge RST) begin
+	always @ (posedge CLK or negedge RST) begin
 		if (~RST) begin
 			state <= 0;
 			deb_signal <= 0;
